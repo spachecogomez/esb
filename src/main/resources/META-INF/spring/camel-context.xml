@@ -39,12 +39,12 @@
             <camel:split>
                 <camel:xpath>/soapenv:Envelope/soapenv:Body/proc:changeCrew</camel:xpath>
                 <camel:to uri="xslt:transformations/message-crew-in.xsl"/>
-                <camel:wireTap uri="activemq:topic:CREW.TEMP.QUEUE"/>
+                <camel:wireTap uri="activemq:queue:CREW.TEMP.QUEUE"/>
             </camel:split>
             <camel:to uri="language:constant:resource:classpath:/responses/crew-response.xml"/>
         </camel:route>
         <camel:route id="json_transformer_crew">
-            <camel:from uri="activemq:topic:CREW.TEMP.QUEUE"/>
+            <camel:from uri="activemq:queue:CREW.TEMP.QUEUE"/>
             <camel:unmarshal ref="jaxb_xml"/>
             <camel:marshal ref="json"/>
             <camel:log message="Json Transformer-[log] - Message Received ${body}"/>
