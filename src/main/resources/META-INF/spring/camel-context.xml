@@ -9,12 +9,8 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
     <import resource="infrastructure.xml"/>
-    
-    <!--bean id="crewAdapter" class="co.edu.javeriana.aes.modval.aircraft.esb.flows.CrewAdapter"/-->
-    
-    
 	
-    <camel:camelContext xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:proc="http://aerolineas-latinoamericana.com/soa/processes/crew-message/process-crew-message/">
+    <camel:camelContext xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:proc="http://aerolineas-latinoamericana.com/soa/processes/crew-message/process-crew-message/" xmlns:inc="http://aerolineas-latinoamericana.com/soa/incidents-message/process-incidents-message/">
 		
         
         <camel:dataFormats>
@@ -49,6 +45,18 @@
             <camel:marshal ref="json"/>
             <camel:log message="Json Transformer-[log] - Message Received ${body}"/>
             <camel:to uri="activemq:queue:CREW.JSON.QUEUE"/>
+        </camel:route>
+        
+        <camel:route id="incident-ws">
+            <camel:from uri="cxf:bean:incidents-ws?dataFormat=MESSAGE"/>
+            <camel:split>
+                <camel:xpath>/soapenv:Envelope/soapenv:Body/inc:reportIncident</camel:xpath>
+                <camel:to uri="xslt:transformations/message-incident-in.xsl"/>
+                <camel:to uri="xslt:transformations/message-incident-csv-transformer.xsl"/>
+                <camel:log message="FixedLength Transformer-[log] - Message Received ${body}"/>
+                <camel:wireTap uri="activemq:queue:INCIDENT.FIXEDLENGTH.QUEUE"/>
+            </camel:split>
+            <camel:to uri="language:constant:resource:classpath:/responses/incident-response.xml"/>
         </camel:route>
     </camel:camelContext>
 </beans>

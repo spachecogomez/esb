@@ -48,10 +48,10 @@
 		endpointName="s:CrewPortType" serviceName="s:CrewService"
 		xmlns:s="http://aerolineas-latinoamericana.com/soa/processes/crew-message/process-crew-message/"/>
         	
-        <!-- Incidents Service >
+        <!-- Incidents Service -->
         <cxf:cxfEndpoint id="incidents-ws" 
 		address="http://localhost:28083/esb/incident" wsdlURL="contracts/incidents-service.wsdl"
 		endpointName="s:incidentPort" serviceName="s:incidentService"
-		xmlns:s="http://aerolineas-latinoamericana.com/soa/processes/incidents-message/process-incidents-message/"/-->	
+		xmlns:s="http://aerolineas-latinoamericana.com/soa/incidents-message/process-incidents-message/"/>	
 
 </beans>
