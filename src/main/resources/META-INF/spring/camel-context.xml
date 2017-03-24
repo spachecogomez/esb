@@ -62,7 +62,7 @@
                 <camel:to uri="xslt:transformations/message-incident-in.xsl"/>
                 <camel:to uri="xslt:transformations/message-incident-csv-transformer.xsl"/>
                 <camel:log message="FixedLength Transformer-[log] - Message Received ${body}"/>
-                <camel:wireTap uri="activemq:queue:INCIDENT.FIXEDLENGTH.QUEUE"/>
+                <camel:wireTap uri="file:/Users/sebastianpacheco/?fileName=incident-${date:now:yyyyMMdd'T'HHmmssSSS}.txt" />
             </camel:split>
             <camel:to uri="language:constant:resource:classpath:/responses/incident-response.xml"/>
         </camel:route>
