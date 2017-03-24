@@ -8,7 +8,7 @@
         http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-    <import resource="infrastructure.xml"/>
+    <import resource="infrastructure.xml"/>    
 	
     <camel:camelContext xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:proc="http://aerolineas-latinoamericana.com/soa/processes/crew-message/process-crew-message/" xmlns:inc="http://aerolineas-latinoamericana.com/soa/incidents-message/process-incidents-message/">
 		
@@ -21,13 +21,21 @@
         <camel:route id="brms-soap" streamCache="true">
 			
             <camel:from uri="cxf:bean:businessRule?dataFormat=MESSAGE" />
+            <camel:to uri="xslt:transformations/business-rule.xsl"/>
+            <camel:removeHeaders pattern="Camel*"/>
+            <camel:setHeader headerName="Content-Type" >
+                <camel:simple>application/xml</camel:simple>
+            </camel:setHeader>
+            <camel:setHeader headerName="X-KIE-ContentType">
+                <camel:simple>XSTREAM</camel:simple>
+            </camel:setHeader>
+            <camel:setHeader headerName="Authorization">
+                <camel:simple>Basic YnJtczpBZG1pbkAxMjM=</camel:simple>
+            </camel:setHeader>
+            <camel:to uri="http://localhost:9292/kie-server/services/rest/server/containers/instances/airplane-rules"/>
             <camel:log message="Business---------[log] - ${body}"/>
-			
-        </camel:route>
-        
-        <camel:route>
-            <camel:from uri="cxf:bean:aircraft-ws?dataFormat=MESSAGE"/>
-            <camel:log message="Aircraft-----------[log] - Message Received ${body}"/>
+            <camel:to uri="xslt:transformations/business-rule_response.xsl"/>
+            <camel:log message="BusinessResponse---------[log] - ${body}"/>		
         </camel:route>
         
         <camel:route id="crew-ws">

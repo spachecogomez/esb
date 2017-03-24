@@ -33,14 +33,8 @@
 	
 	<cxf:cxfEndpoint id="businessRule"
 		address="http://localhost:28080/esb/business-rule" wsdlURL="contracts/business-rule.wsdl"
-		endpointName="s:businessRulePort" serviceName="s:businessRuleService"
-		xmlns:s="http://www.busines-rule.com/business-rule/"/>	
-        
-        <!-- Aircrafts service-->
-        <cxf:cxfEndpoint id="aircraft-ws" 
-                address="http://localhost:28081/esb/aircraft" wsdlURL="contracts/aircraft-soap-api.wsdl"
-		endpointName="s:aircraft-soap-api-service-port" serviceName="s:aircraft-soap-api-service"
-		xmlns:s="http://aerolineas-latinoamericana.com/soa/processes/aircraft-artifacts"/>	
+		endpointName="s:businessRuleSOAP" serviceName="s:processBusinessRule"
+		xmlns:s="http://aerolineas-latinoamericana.com/soa/business-rule-message/process-business-rule/"/>		
         
         <!-- CREW Service -->
         <cxf:cxfEndpoint id="crew-ws" 
