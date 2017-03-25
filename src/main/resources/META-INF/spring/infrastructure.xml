@@ -47,5 +47,11 @@
 		address="http://localhost:28083/esb/incident" wsdlURL="contracts/incidents-service.wsdl"
 		endpointName="s:incidentPort" serviceName="s:incidentService"
 		xmlns:s="http://aerolineas-latinoamericana.com/soa/incidents-message/process-incidents-message/"/>	
+        
+        <!-- Mop Service -->
+        <cxf:cxfEndpoint id="mop-ws" 
+		address="http://localhost:28084/esb/mop" wsdlURL="contracts/mop.wsdl"
+		endpointName="s:mopSOAP" serviceName="s:mop"
+		xmlns:s="http://aerolineas-latinoamericana.com/soa/mop-message/mop-rule/"/>	
 
 </beans>
